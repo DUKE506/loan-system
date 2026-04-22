@@ -3,7 +3,6 @@ package com.duke.loan_system.domain;
 import jakarta.persistence.*;
 
 @Entity(name = "users")
-@Table
 public class User {
     //식별자
     @Id
@@ -13,6 +12,10 @@ public class User {
     //고객명
     @Column
     private String name;
+
+    //주민번호
+    @Column
+    private String rnn;
 
     //신용등급
     @Column
@@ -37,6 +40,10 @@ public class User {
     public void setName(String name){
         this.name = name;
     }
+
+    //// 주민번호 GETTER, SETTER
+    public String getRnn(){return rnn;}
+    public void setRnn(String rnn) {this.rnn = rnn;}
 
     //// 신용등급 GETTER, SETTER
     public CreditGrade getCreditGrade(){

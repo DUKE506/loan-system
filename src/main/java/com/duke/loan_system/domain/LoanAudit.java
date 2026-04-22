@@ -10,12 +10,19 @@ public class LoanAudit {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //심사결과
+    //심사상태
     @Column
     @Enumerated(value = EnumType.STRING)
-    private LoanResult result;
-    //대출 식별자
-    private Long loanId;
+    private LoanAuditStatus auditStatus = LoanAuditStatus.PENDING;
+
+    //거부사유 등
+    @Column
+    private String note;
+
+    //대출
+    @OneToOne
+    @JoinColumn(name = "loanInfo")
+    private Loan loanInfo;
 
     //생성자
     public LoanAudit (){}
@@ -28,18 +35,20 @@ public class LoanAudit {
         this.id = id;
     }
 
-    public LoanResult getResult(){
-        return result;
+    public LoanAuditStatus getAuditStatus(){
+        return auditStatus;
     }
-    public void setResult(LoanResult result){
-        this.result = result;
-    }
-
-    public Long getLoanId(){
-        return loanId;
+    public void setAuditStatus(LoanAuditStatus auditStatus){
+        this.auditStatus = auditStatus;
     }
 
-    public void setLoadId(Long loanId){
-        this.loanId = loanId;
+    public String getNote() {return note;}
+    public void setNote(String message){ this.note= message;}
+
+    public Loan getLoanInfo(){
+        return loanInfo;
+    }
+    public void setLoanInfo(Loan loanInfo){
+        this.loanInfo = loanInfo;
     }
 }

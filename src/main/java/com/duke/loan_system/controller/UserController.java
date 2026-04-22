@@ -22,6 +22,7 @@ public class UserController {
     public ResponseEntity<User> createUser (@RequestBody CreateUserDTO createUserDto) {
         System.out.println("===============================");
         System.out.println("[User][Controller] 사용자명 : "+createUserDto.getName());
+        System.out.println("[User][Controller] 주민번호 : "+createUserDto.getRnn());
         User user = userService.createUser(createUserDto);
         return ResponseEntity.status(201).body(user);
     }

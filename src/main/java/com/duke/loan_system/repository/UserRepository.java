@@ -8,4 +8,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
 
+    //주민번호로 조회
+    Optional<User> findByRnn(String rnn);
+
+
 }
