@@ -32,10 +32,17 @@ public class LoanService {
         User user = userRepository.findByRnn(applyLoanDTO.getApplicantRnn())
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지않습니다."));
 
-        ////대출금
+        /// 대출금
         createLoan.setAmount(applyLoanDTO.getAmount());
-        ////대출자
+        /// 대출자
         createLoan.setApplicant(user);
+        /// 대출기간
+        createLoan.setPeriod(applyLoanDTO.getPeriod());
+        /// 대출금리
+        createLoan.setInterestRate(applyLoanDTO.getInterestRate());
+        /// 초기 잔액
+        createLoan.setBalance(applyLoanDTO.getAmount());
+
 
         // 2. 대출생성
         Loan createdLoan = loanRepository.save(createLoan);

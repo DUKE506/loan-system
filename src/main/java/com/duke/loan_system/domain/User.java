@@ -22,6 +22,10 @@ public class User {
     @Enumerated(value = EnumType.STRING)
     private CreditGrade creditGrade;
 
+    //잔액
+    @Column
+    private int balance = 500000;
+
     // 기본 생성자
     public User(){}
 
@@ -52,6 +56,10 @@ public class User {
     public void setCreditGrade(CreditGrade creditGrade){
         this.creditGrade= creditGrade;
     }
+
+    //// 잔액 GETTER, SETTER
+    public int getBalance(){return balance;}
+    public void setBalance(Integer balance){this.balance = balance;}
 
 
 }

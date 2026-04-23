@@ -9,15 +9,23 @@ public class ApplyLoanDTO {
     private String applicantRnn;
 
     //대출금
-    private Integer amount;
+    private int amount;
+
+    //대출기간
+    private int period;
+
+    //대출금리
+    private float interestRate;
 
     public String getApplicantName(){
         return applicantName;
     }
     public String getApplicantRnn() { return applicantRnn;}
-    public Integer getAmount(){
+    public int getAmount(){
         return amount;
     }
+    public int getPeriod(){return period;}
+    public float getInterestRate(){return interestRate;}
 }
 
 

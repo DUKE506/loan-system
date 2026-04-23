@@ -30,4 +30,5 @@ public class LoanAuditController {
         LoanAudit loanAudit = loanAuditService.rejectLoan(rejectLoanAuditDTO);
         return ResponseEntity.ok(loanAudit);
     }
+
 }
