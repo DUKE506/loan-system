@@ -1,4 +1,4 @@
-package com.duke.loan_system.dto;
+package com.duke.loan_system.dto.user;
 
 public class CreateUserDTO {
     private String name;

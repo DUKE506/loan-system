@@ -2,6 +2,7 @@ package com.duke.loan_system.controller;
 
 import com.duke.loan_system.domain.Loan;
 import com.duke.loan_system.dto.loan.ApplyLoanDTO;
+import com.duke.loan_system.dto.loan.ResponseLoanDTO;
 import com.duke.loan_system.service.LoanService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +20,18 @@ public class LoanController {
 
 
     //대출 신청
-    @PostMapping("/apply")
-    public ResponseEntity<Loan> applyLoan(@RequestBody ApplyLoanDTO applyLoanDTO) {
-        System.out.println("===============================");
-        System.out.println("[Loan][Controller] 사용자명 : "+applyLoanDTO.getApplicantName());
-        System.out.println("[Loan][Controller] 주민번호 : "+applyLoanDTO.getApplicantRnn());
-        System.out.println("[Loan][Controller] 대출금 : "+applyLoanDTO.getAmount());
-        Loan loan = loanService.applyLoan(applyLoanDTO);
+    @PostMapping()
+    public ResponseEntity<ResponseLoanDTO> applyLoan(@RequestBody ApplyLoanDTO applyLoanDTO) {
+
+        ResponseLoanDTO loan = loanService.applyLoan(applyLoanDTO);
         return ResponseEntity.status(201).body(loan);
     }
 
-    //대출 이력조회
-    @GetMapping("/findApplicant")
-    public ResponseEntity<List<Loan>> findLoanListByApplicant(@RequestParam String rnn ){
-        List<Loan> loanList = loanService.findLoanListByApplicant(rnn);
+    // 사용자 전체 대출 이력조회
+    @GetMapping("{rnn}")
+    public ResponseEntity<List<ResponseLoanDTO>> findLoanListByApplicant(@PathVariable("rnn") String rnn ){
+        List<ResponseLoanDTO> loanList = loanService.findLoanListByApplicant(rnn);
         return ResponseEntity.ok(loanList);
     }
+
 }

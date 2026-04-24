@@ -44,7 +44,7 @@ public class RepaymentHistoryService {
         //3. 대출 잔액, 납부횟수 업데이트
         int balance = loan.getBalance() - repaymentExecutionDTO.getRepayment();
         loan.setBalance(balance);
-        loan.setFrequency(loan.getFrequency()+1);
+        loan.setPaymentCount(loan.getPaymentCount()+1);
 
         loanRepository.save(loan);
 

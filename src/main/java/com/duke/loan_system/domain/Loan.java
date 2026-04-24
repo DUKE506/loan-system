@@ -28,7 +28,7 @@ public class Loan {
 
     //납부횟수
     @Column
-    private int frequency = 0;
+    private int paymentCount = 0;
 
     //대출금리
     @Column
@@ -83,8 +83,8 @@ public class Loan {
     public void setPeriod(int period){ this.period = period;}
 
     /// 납부횟수
-    public int getFrequency(){return frequency;}
-    public void setFrequency(int frequency){this.frequency = frequency;}
+    public int getPaymentCount(){return paymentCount;}
+    public void setPaymentCount(int frequency){this.paymentCount = frequency;}
 
     /// 대출금리
     public float getInterestRate(){return interestRate;}
