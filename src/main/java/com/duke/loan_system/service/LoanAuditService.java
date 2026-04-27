@@ -43,13 +43,13 @@ public class LoanAuditService {
                 .orElseThrow(()->new IllegalArgumentException("지급 대상이 존재하지않습니다."));
 
         // 4. 심사 승인
-        loanAudit.setAuditStatus(LoanAuditStatus.APPROVED);
-        // 4. 대출 상태 변경 / 대기 -> 실행
-        loan.setStatus(LoanStatus.EXECUTED);
+        loanAudit.approve();
 
+        // 5. 대출 상태 변경 / 대기 -> 실행
+        loan.execute();
 
-        int balance = user.getBalance();
-        user.setBalance(balance+loan.getAmount());
+        // 6. 대출금 입금
+        user.addBalance(loan.getAmount());
 
         loanRepository.save(loan);
         userRepository.save(user);
@@ -69,12 +69,12 @@ public class LoanAuditService {
 
 
         // 3. 대출 상태 변경
-        loan.setStatus(LoanStatus.REJECTED);
+        loan.reject();
         loanRepository.save(loan);
 
         // 4. 심사 거부
-        loanAudit.setAuditStatus(LoanAuditStatus.REJECTED);
-        loanAudit.setNote(message);
+        loanAudit.reject(message);
+
         LoanAudit updatedLoanAudit = loanAuditRepository.save(loanAudit);
 
         // 5. 응답 객체 생성

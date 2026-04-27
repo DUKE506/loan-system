@@ -61,5 +61,24 @@ public class User {
     public int getBalance(){return balance;}
     public void setBalance(Integer balance){this.balance = balance;}
 
+    //메서드
+    /// 잔액 추가
+    public void addBalance(int amount){
+        if(amount <= 0 ){
+            throw new IllegalArgumentException("금액은 0보다 커야 합니다.");
+        }
+        this.balance += amount;
+    }
+
+    public void deductBalance(int amount){
+        if(amount <= 0){
+            throw new IllegalArgumentException("금액은 0보다 커야 합니다.");
+        }
+        if(this.balance < amount){
+            throw new IllegalArgumentException("잔액이 부족합니다.");
+        }
+        this.balance -= amount;
+    }
+
 
 }

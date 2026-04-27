@@ -89,5 +89,37 @@ public class Loan {
     /// 대출금리
     public float getInterestRate(){return interestRate;}
     public void setInterestRate(float interestRate){this.interestRate = interestRate;}
+
+    //메서드
+    /// 승인
+    public void approve(){
+        if (this.status == LoanStatus.REJECTED) {
+            throw new IllegalArgumentException("이미 거부된 대출입니다.");
+        }
+        this.status = LoanStatus.APPROVED;
+    }
+    /// 실행
+    public void execute(){
+        if (this.status == LoanStatus.REJECTED) {
+            throw new IllegalArgumentException("이미 거부된 대출입니다.");
+        }
+        this.status = LoanStatus.EXECUTED;
+        //실행 시 잔액이생김
+        this.balance = this.amount;
+    }
+    /// 거부
+    public void reject(){
+        this.status = LoanStatus.REJECTED;
+    }
+
+    /// 납부
+    public void repayment(int amount){
+        if(amount <= 0 ){
+            throw new IllegalArgumentException("금액은 0보다 커야 합니다.");
+        }
+
+        this.balance -= amount;
+        this.paymentCount +=1;
+    }
 }
 

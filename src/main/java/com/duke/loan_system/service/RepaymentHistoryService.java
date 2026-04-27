@@ -34,22 +34,17 @@ public class RepaymentHistoryService {
                 .orElseThrow(()-> new IllegalArgumentException("사용자가 존재하지 않습니다."));
 
         //2. 대출 조회
-        List<Loan> loanList = loanRepository.findByApplicant(user);
-        if(loanList.isEmpty()){
-            throw new IllegalArgumentException("대출이 존재하지 않습니다.");
-        }
+       Loan loan = loanRepository.findById(repaymentExecutionDTO.getLoanId())
+               .orElseThrow(()-> new IllegalArgumentException("대출이 존재하지 않습니다."));
 
-        Loan loan = loanList.get(0);
+        //3-1. 사용자 잔액변경
+        user.deductBalance(repaymentExecutionDTO.getRepayment());
+        userRepository.save(user);
 
-        //3. 대출 잔액, 납부횟수 업데이트
-        int balance = loan.getBalance() - repaymentExecutionDTO.getRepayment();
-        loan.setBalance(balance);
-        loan.setPaymentCount(loan.getPaymentCount()+1);
-
+        //3-2. 대출 잔액, 납부횟수 업데이트
+        loan.repayment(repaymentExecutionDTO.getRepayment());
         loanRepository.save(loan);
 
-        user.setBalance(balance);
-        userRepository.save(user);
 
         //4. 상환이력 추가.
         RepaymentHistory history = new RepaymentHistory();

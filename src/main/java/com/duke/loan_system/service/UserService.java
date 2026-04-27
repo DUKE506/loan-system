@@ -42,10 +42,10 @@ public class UserService {
     }
 
     //사용자 생성
-    public User createUser(CreateUserDTO createUserDTO){
+    public ResponseUserDTO createUser(CreateUserDTO createUserDTO){
         String createUserName =createUserDTO.getName();
         String createUserRnn = createUserDTO.getRnn();
-//        System.out.println("[User][Service] 주민번호 : "+ createUserRnn);
+
 
         if(createUserName.isBlank()){
             throw new IllegalArgumentException("사용자명이 누락 되었습니다.");
@@ -61,11 +61,11 @@ public class UserService {
         // 최초 생성시 C등급
         createUser.setCreditGrade(CreditGrade.C);
 
-//        System.out.println("[User][Service] 생성 객체 주민번호 : "+ createUser.getRnn());
+        User createdUser =userRepository.save(createUser);
+
+        ResponseUserDTO responseUser = new ResponseUserDTO(createdUser);
 
 
-        return userRepository.save(createUser);
+        return responseUser;
     }
-
-
 }

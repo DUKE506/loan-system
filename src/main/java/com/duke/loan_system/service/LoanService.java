@@ -46,7 +46,7 @@ public class LoanService {
         /// 대출금리
         createLoan.setInterestRate(applyLoanDTO.getInterestRate());
         /// 초기 잔액
-        createLoan.setBalance(applyLoanDTO.getAmount());
+        createLoan.setBalance(0);
 
         // 2. 대출생성
         Loan createdLoan = loanRepository.save(createLoan);

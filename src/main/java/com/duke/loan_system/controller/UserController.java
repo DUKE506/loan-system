@@ -24,12 +24,12 @@ public class UserController {
     // 사용자 생성
     // POST : /users
     @PostMapping()
-    public ResponseEntity<User> createUser (@RequestBody CreateUserDTO createUserDto) {
+    public ResponseEntity<ResponseUserDTO> createUser (@RequestBody CreateUserDTO createUserDto) {
         log.info("===============================");
         log.info("[User][Controller] 사용자명 : "+createUserDto.getName());
         log.info("[User][Controller] 주민번호 : "+createUserDto.getRnn());
 
-        User user = userService.createUser(createUserDto);
+        ResponseUserDTO user = userService.createUser(createUserDto);
         return ResponseEntity.status(201).body(user);
     }
     // 사용자 전체 조회

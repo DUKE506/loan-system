@@ -51,4 +51,20 @@ public class LoanAudit {
     public void setLoanInfo(Loan loanInfo){
         this.loanInfo = loanInfo;
     }
+
+    //메서드
+    /// 승인
+    public void approve(){
+        if(this.auditStatus == LoanAuditStatus.REJECTED){
+            throw new IllegalArgumentException("이미 거부된 대출입니다.");
+        }
+        this.auditStatus = LoanAuditStatus.APPROVED;
+    }
+
+    /// 거부
+    public void reject(String message){
+        this.auditStatus = LoanAuditStatus.REJECTED;
+        this.note = message;
+
+    }
 }

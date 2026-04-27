@@ -18,13 +18,13 @@ public class RepaymentHistoryController {
         this.repaymentHistoryService= repaymentHistoryService;
     }
 
-    @GetMapping("/findAll")
+    @GetMapping()
     public ResponseEntity<List<RepaymentHistory>> findAllRepaymentHistory(){
         List<RepaymentHistory> histories = repaymentHistoryService.findAllRepaymentHistory();
         return ResponseEntity.ok(histories);
     }
 
-    @PostMapping("/execute")
+    @PostMapping()
     public ResponseEntity<RepaymentHistory> repaymentExecute(@RequestBody RepaymentExecutionDTO repaymentExecutionDTO){
         RepaymentHistory history = repaymentHistoryService.repaymentExecute(repaymentExecutionDTO);
 
