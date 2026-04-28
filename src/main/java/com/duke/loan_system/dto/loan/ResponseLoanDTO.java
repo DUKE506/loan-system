@@ -12,19 +12,28 @@ public class ResponseLoanDTO {
     private int period;
     private int paymentCount;
     private float interestRate;
-    private ResponseUserDTO user;
+    private Long userId;
+    private String userName;
+
 
     // 생성자
     public ResponseLoanDTO(){};
-    public ResponseLoanDTO(Loan loan){
-        this.id = loan.getId();
-        this.amount = loan.getAmount();
-        this.loanStatus = loan.getLoanStatus();
-        this.balance = loan.getBalance();
-        this.period = loan.getPeriod();
-        this.paymentCount = loan.getPaymentCount();
-        this.interestRate = loan.getInterestRate();
-        this.user = new ResponseUserDTO(loan.getApplicant());
+
+
+    //정적 메서드
+    public static ResponseLoanDTO from(Loan loan){
+        ResponseLoanDTO dto = new ResponseLoanDTO();
+        dto.id = loan.getId();
+        dto.amount = loan.getAmount();
+        dto.loanStatus = loan.getLoanStatus();
+        dto.balance = loan.getBalance();
+        dto.period = loan.getPeriod();
+        dto.paymentCount = loan.getPaymentCount();
+        dto.interestRate = loan.getInterestRate();
+        dto.userId = loan.getApplicant().getId();
+        dto.userName = loan.getApplicant().getName();
+
+        return dto;
     }
 
     // GETTER, SETTER
@@ -49,6 +58,12 @@ public class ResponseLoanDTO {
     public float getInterestRate(){return interestRate;}
     public void setInterestRate(float interestRate){this.interestRate = interestRate;}
 
-    public ResponseUserDTO getUser(){return user;}
-    public void setUser(ResponseUserDTO user){this.user = user;}
+    public Long getUserId(){return userId;}
+    public void setUserId(Long userId){this.userId = userId;}
+
+    public String getUserName(){return userName;}
+    public void setUserName(String userName) {this.userName = userName;}
+
+//    public ResponseUserDTO getUser(){return user;}
+//    public void setUser(ResponseUserDTO user){this.user = user;}
 }

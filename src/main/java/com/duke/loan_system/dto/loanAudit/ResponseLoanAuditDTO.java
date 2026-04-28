@@ -13,12 +13,23 @@ public class ResponseLoanAuditDTO {
 
 
     public ResponseLoanAuditDTO(){};
-    public ResponseLoanAuditDTO(LoanAudit loanAudit){
-        this.id = loanAudit.getId();
-        this.loanAuditStatus = loanAudit.getAuditStatus();
-        this.note = loanAudit.getNote();
-        this.loanInfo = new ResponseLoanDTO(loanAudit.getLoanInfo());
-    };
+//    public ResponseLoanAuditDTO(LoanAudit loanAudit){
+//        this.id = loanAudit.getId();
+//        this.loanAuditStatus = loanAudit.getAuditStatus();
+//        this.note = loanAudit.getNote();
+//        this.loanInfo = new ResponseLoanDTO(loanAudit.getLoanInfo());
+//    };
+
+    //정적 메서드
+    public static ResponseLoanAuditDTO from(LoanAudit loanAudit){
+        ResponseLoanAuditDTO dto = new ResponseLoanAuditDTO();
+        dto.id = loanAudit.getId();
+        dto.loanAuditStatus = loanAudit.getAuditStatus();
+        dto.note = loanAudit.getNote();
+        dto.loanInfo = ResponseLoanDTO.from(loanAudit.getLoanInfo());
+        return dto;
+    }
+
 
     public Long getId(){return id;}
     public void setId(Long id){ this.id = id;}

@@ -36,8 +36,6 @@ public class UserService {
             return responseUser;
         }).collect(Collectors.toList());
 
-        responseUsers.forEach(user -> log.info("사용자 : {}",user));
-
         return responseUsers;
     }
 
@@ -61,7 +59,7 @@ public class UserService {
         // 최초 생성시 C등급
         createUser.setCreditGrade(CreditGrade.C);
 
-        User createdUser =userRepository.save(createUser);
+        User createdUser = userRepository.save(createUser);
 
         ResponseUserDTO responseUser = new ResponseUserDTO(createdUser);
 

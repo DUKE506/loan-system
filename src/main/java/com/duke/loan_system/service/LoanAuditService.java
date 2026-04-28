@@ -24,14 +24,13 @@ public class LoanAuditService {
 
     //대출 심사 생성
     public LoanAudit createLoanAudit(Loan loan){
-        LoanAudit createLoanAudit = new LoanAudit();
-        createLoanAudit.setLoanInfo(loan);
+        LoanAudit createLoanAudit = LoanAudit.createLoanAudit(loan);
         return loanAuditRepository.save(createLoanAudit);
     }
 
     //대출 심사 승인
     @Transactional
-    public LoanAudit approvalLoan(Long id){
+    public ResponseLoanAuditDTO approvalLoan(Long id){
         // 1. 대출 조회
         Loan loan = loanRepository.findById(id)
                 .orElseThrow(()-> new IllegalArgumentException("대출이 존재하지 않습니다."));
@@ -51,10 +50,14 @@ public class LoanAuditService {
         // 6. 대출금 입금
         user.addBalance(loan.getAmount());
 
+        //생략가능
         loanRepository.save(loan);
         userRepository.save(user);
 
-        return loanAuditRepository.save(loanAudit);
+        //
+        LoanAudit approvedLoanAudit =loanAuditRepository.save(loanAudit);
+
+        return ResponseLoanAuditDTO.from(approvedLoanAudit);
     }
 
     //대출 심사 거부
@@ -70,16 +73,13 @@ public class LoanAuditService {
 
         // 3. 대출 상태 변경
         loan.reject();
-        loanRepository.save(loan);
 
         // 4. 심사 거부
         loanAudit.reject(message);
 
-        LoanAudit updatedLoanAudit = loanAuditRepository.save(loanAudit);
+        loanRepository.save(loan);
+        LoanAudit rejectedLoanAudit = loanAuditRepository.save(loanAudit);
 
-        // 5. 응답 객체 생성
-        ResponseLoanAuditDTO response = new ResponseLoanAuditDTO(updatedLoanAudit);
-
-        return response;
+        return ResponseLoanAuditDTO.from(rejectedLoanAudit);
     }
 }

@@ -1,5 +1,6 @@
 package com.duke.loan_system.domain;
 
+import com.duke.loan_system.dto.loan.ApplyLoanDTO;
 import jakarta.persistence.*;
 
 @Entity
@@ -41,6 +42,18 @@ public class Loan {
 
     // 기본 생성자
     public Loan(){}
+
+    // 대출 생성시 정적메서드
+    public static Loan createLoan(int amount, int period, float interestRate, User user){
+        Loan loan = new Loan();
+        loan.amount = amount;
+        loan.period = period;
+        loan.interestRate = interestRate;
+        loan.balance = 0;
+        loan.applicant=user;
+        return loan;
+    }
+
 
     /// 식별자 GETTER, SETTER
     public Long getId(){
@@ -114,12 +127,16 @@ public class Loan {
 
     /// 납부
     public void repayment(int amount){
+        if(this.balance <= 0){
+            throw new IllegalArgumentException("이미 완납된 대출입니다.");
+        }
+
         if(amount <= 0 ){
             throw new IllegalArgumentException("금액은 0보다 커야 합니다.");
         }
 
         this.balance -= amount;
-        this.paymentCount +=1;
+        this.paymentCount++;
     }
 }
 

@@ -70,6 +70,7 @@ public class User {
         this.balance += amount;
     }
 
+    /// 잔액 차감
     public void deductBalance(int amount){
         if(amount <= 0){
             throw new IllegalArgumentException("금액은 0보다 커야 합니다.");

@@ -31,33 +31,19 @@ public class LoanService {
     // 신청
     @Transactional
     public ResponseLoanDTO applyLoan(ApplyLoanDTO applyLoanDTO){
-        Loan createLoan = new Loan();
-
         // 1. 사용자 검증
         User user = userRepository.findByRnn(applyLoanDTO.getApplicantRnn())
                 .orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지않습니다."));
-
-        /// 대출금
-        createLoan.setAmount(applyLoanDTO.getAmount());
-        /// 대출자
-        createLoan.setApplicant(user);
-        /// 대출기간
-        createLoan.setPeriod(applyLoanDTO.getPeriod());
-        /// 대출금리
-        createLoan.setInterestRate(applyLoanDTO.getInterestRate());
-        /// 초기 잔액
-        createLoan.setBalance(0);
-
+        
+        // 정적 메서드 활용 객체 생성
+        Loan createLoan = Loan.createLoan(applyLoanDTO.getAmount(), applyLoanDTO.getPeriod(),applyLoanDTO.getInterestRate(),user);
         // 2. 대출생성
         Loan createdLoan = loanRepository.save(createLoan);
-        // 2-1. 응답 객체 생성
-        ResponseLoanDTO responseLoanDTO = new ResponseLoanDTO(createdLoan);
-
 
         // 3. 대출심사 생성 -> 책임 혼재. 분리할 것인가? 분리한다면 LoanAuditService
         loanAuditService.createLoanAudit(createdLoan);
 
-        return responseLoanDTO;
+        return ResponseLoanDTO.from(createdLoan);
     }
 
     //상태 조회
@@ -69,11 +55,9 @@ public class LoanService {
         //2. 대출이력 조회
         List<Loan> loanList = loanRepository.findByApplicant(user);
 
-        List<ResponseLoanDTO> responses = loanList.stream().map(
-                loan -> new ResponseLoanDTO(loan)
-        ).collect(Collectors.toList());
-
-        return responses;
+        return loanList.stream()
+                .map(ResponseLoanDTO::from)
+                .collect(Collectors.toList());
     }
 
 }

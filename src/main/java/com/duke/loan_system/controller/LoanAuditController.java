@@ -20,8 +20,8 @@ public class LoanAuditController {
 
     //심사 승인
     @PatchMapping("/approval/{id}")
-    public ResponseEntity<LoanAudit> approvalLoan(@PathVariable("id") Long id){
-        LoanAudit loanAudit = loanAuditService.approvalLoan(id);
+    public ResponseEntity<ResponseLoanAuditDTO> approvalLoan(@PathVariable("id") Long id){
+        ResponseLoanAuditDTO loanAudit = loanAuditService.approvalLoan(id);
         return ResponseEntity.ok(loanAudit);
     }
 

@@ -27,6 +27,13 @@ public class LoanAudit {
     //생성자
     public LoanAudit (){}
 
+    //정적메서드
+    public static LoanAudit createLoanAudit(Loan loan){
+        LoanAudit loanAudit = new LoanAudit();
+        loanAudit.loanInfo = loan;
+        return loanAudit;
+    }
+
     //// 식별자 GETTER, SETTER
     public Long getId(){
         return id;

@@ -1,6 +1,7 @@
 package com.duke.loan_system.domain;
 
 import jakarta.persistence.*;
+import org.springframework.boot.context.event.SpringApplicationEvent;
 
 import java.util.Date;
 
@@ -12,7 +13,7 @@ public class RepaymentHistory {
 
     //상환금
     @Column
-    private Integer repayment;
+    private int repayment;
 
     //상황일
     @Column
@@ -31,11 +32,22 @@ public class RepaymentHistory {
     //생성자
     public RepaymentHistory(){}
 
+    //정적 메서드
+    public static RepaymentHistory create(int repayment, Loan loan, User user){
+        RepaymentHistory repaymentHistory = new RepaymentHistory();
+        repaymentHistory.repayment = repayment;
+        repaymentHistory.repaymentDate = new Date();
+        repaymentHistory.loanInfo = loan;
+        repaymentHistory.applicant = user;
+
+        return repaymentHistory;
+    }
+
     public Long getId(){ return id;}
     public void setId(Long id){this.id = id;}
 
-    public Integer getRepayment(){return repayment;}
-    public void setRepayment(Integer repayment){ this.repayment = repayment;}
+    public int getRepayment(){return repayment;}
+    public void setRepayment(int repayment){ this.repayment = repayment;}
 
     public Date getRepaymentDate(){return repaymentDate;}
     public void setRepaymentDate(Date repaymentDate){this.repaymentDate = repaymentDate;}
